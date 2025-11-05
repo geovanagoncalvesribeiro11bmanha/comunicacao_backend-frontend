@@ -1,7 +1,12 @@
+import dotenv from 'dotenv'
+dotenv.config()
+
 import express, { response } from "express"
 import cors from "cors"
-
+import mysql2 from "mysql2"
 import {persons} from "./persons.js"
+
+const{DB_HOST, DB_NAME, DB_USER, DB_PASSWORD} = process.env
 
 const app = express()
 const port = 3333
@@ -20,9 +25,32 @@ app.post("/cadastrar", (request, response) => {
 
     console.log(user)
 
-    response.status(201).json({message: "Usuário cadastrado com sucesso!"})
+    const insertCommand = `
+        INSERT INTO geovanagoncalves_02mb(name, email, password)
+        VALUES(?, ?, ?)
+    `
+
+    database.query(insertCommand, [user.name, user.email, user.password], (error)=>{
+        if(error){
+            console.log(error)
+            return
+        }
+
+        response.status(201).json({message: "Usuário cadastrado com sucesso!"})
+    })
+
+    
 })
 
 app.listen(port, () =>{
     console.log(`Server running on port ${port}!`)
 })
+
+const database = mysql2.createPool({
+    host: DB_HOST,
+    database: DB_NAME,
+    user: DB_USER,
+    password: DB_PASSWORD,
+    connectionLimit: 10
+})
+
