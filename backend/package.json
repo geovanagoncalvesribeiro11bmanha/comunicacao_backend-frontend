@@ -3,20 +3,19 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "type": "module",
   "scripts": {
-    "dev": "dotenv -e .env nodemon src/index.js"
+    "dev": "nodemon --env-file=.env index.js localhost 3333"
   },
+  "type": "module",
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "cors": "^2.8.5",
-    "dotenv": "^17.2.3",
-    "express": "^5.1.0"
+    "express": "^5.1.0",
+    "mysql2": "^3.15.3"
   },
   "devDependencies": {
-    "dotenv-cli": "^11.0.0",
     "nodemon": "^3.1.10"
   }
 }
